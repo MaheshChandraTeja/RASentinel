@@ -1,5 +1,5 @@
 <p align="center">
-  <img src="frontend/public/brand/rasentinel-mark.png" alt="RASentinel mark" width="96" />
+  <img src="./assets/branding/source.png" alt="RASentinel mark" width="96" />
 </p>
 
 <h1 align="center">RASentinel</h1>
@@ -28,8 +28,6 @@
 </p>
 
 ---
-
-## Overview
 
 ## Overview
 
@@ -257,8 +255,8 @@ Reports are stored locally and can be searched from the Reports page.
 
 ```mermaid
 flowchart LR
-    A[Create or Select Actuator] --> B[Import, Simulate, or Stream Telemetry]
-    B --> C[Persist Telemetry Session Locally]
+    A[Create or Select Actuator] --> B[Import or Stream Telemetry]
+    B --> C[Persist Telemetry Session]
     C --> D[Extract Signal Features]
     D --> E[Compare Against Healthy Baseline]
     E --> F[Detect Drift]
@@ -271,45 +269,45 @@ flowchart LR
 
 ## Architecture
 
-RASentinel uses a local-first desktop architecture.
+RASentinel uses a desktop architecture with a local backend, local storage, and a React-based diagnostic interface.
 
 ```mermaid
 flowchart TB
-    subgraph Desktop[Electron Desktop Shell]
-        UI[React + Vite Interface]
-        Shell[Electron Main Process]
+    subgraph Desktop["Electron Desktop Shell"]
+        Shell["Electron Main Process"]
+        UI["React Interface"]
     end
 
-    subgraph Backend[FastAPI Backend]
-        API[API Routes]
-        Simulator[Telemetry Simulator]
-        Importer[Telemetry Import Pipeline]
-        Features[Feature Extraction Engine]
-        Drift[Baseline + Drift Engine]
-        Classifier[Fault Classification Engine]
-        Reports[Report Generator]
-        Live[Live Telemetry Bridge]
+    subgraph Backend["FastAPI Backend"]
+        API["API Routes"]
+        Importer["Telemetry Import Pipeline"]
+        Features["Feature Extraction Engine"]
+        Drift["Baseline and Drift Engine"]
+        Classifier["Fault Classification Engine"]
+        Live["Live Telemetry Bridge"]
+        Reports["Report Generator"]
     end
 
-    subgraph Storage[Local Storage]
-        SQLite[SQLite Database]
-        ReportFiles[HTML Reports]
-        Logs[Runtime Logs]
+    subgraph Storage["Local Storage"]
+        SQLite["SQLite Database"]
+        ReportFiles["HTML Reports"]
+        Logs["Runtime Logs"]
     end
 
     Shell --> API
     UI --> API
-    API --> Simulator
     API --> Importer
     API --> Features
     API --> Drift
     API --> Classifier
-    API --> Reports
     API --> Live
+    API --> Reports
     API --> SQLite
     Reports --> ReportFiles
     API --> Logs
 ```
+
+---
 
 ### Backend
 
@@ -557,7 +555,7 @@ docs/real_servo_actuator_realtime_integration.md
 
 ## Demo Flow
 
-RASentinel is designed around live actuator telemetry from a controller, driver, embedded board, PLC, or robotics middleware node. The primary demo flow uses a real actuator run captured through the live telemetry bridge.
+RASentinel is designed around actuator telemetry captured from a controller, driver, embedded board, PLC, or robotics middleware node.
 
 ```mermaid
 sequenceDiagram
@@ -572,42 +570,47 @@ sequenceDiagram
 
     User->>UI: Register actuator
     User->>Controller: Run actuator test profile
-    Controller->>Bridge: Stream command, feedback, current, and temperature samples
+    Controller->>Bridge: Stream command and feedback telemetry
     Bridge->>API: Post live telemetry batches
     API->>DB: Store live session and samples
-    User->>UI: Monitor live telemetry window
+    User->>UI: Monitor live telemetry
     User->>UI: Run diagnosis
     UI->>API: Diagnosis request
-    API->>Diag: Extract features, compare baseline, classify fault
+    API->>Diag: Extract features and classify fault
     Diag->>DB: Store diagnosis and evidence
     User->>UI: Generate report
     UI->>API: Report request
     API->>Report: Build HTML audit report
     Report->>DB: Save report metadata
+```
 
----
+Recommended live actuator workflow:
 
-## Installation
+1. Open the RASentinel desktop app.
+2. Register the actuator with its type, location, controller, and expected operating context.
+3. Connect the actuator controller through USB serial, a controller log stream, ROS2 bridge, or another telemetry adapter.
+4. Start a known-good actuator run and capture telemetry into RASentinel.
+5. Create a healthy baseline from the known-good run.
+6. Run a second actuator test under load or an observed fault condition.
+7. Monitor position tracking, current behavior, temperature trend, response latency, and error growth.
+8. Run diagnostics on the captured session.
+9. Review the fault classification, severity score, confidence score, and supporting evidence.
+10. Generate the local diagnostic report.
 
-### Requirements
-
-| Tool | Recommended |
-|---|---|
-| Python | 3.11+ |
-| Node.js | 20+ or 22+ |
-| pnpm | 9+ |
-| OS | Windows 10/11 recommended |
-| Storage | Local SQLite database |
-| Optional | Real actuator controller with serial/USB telemetry |
-
-### Backend Setup
+Example live bridge command:
 
 ```powershell
-cd F:\Projects-INT\RASentinel\backend
-python -m venv .venv
-.\.venv\Scripts\activate
-pip install -r requirements.txt
-pytest
+cd F:\Projects-INT\RASentinel
+.\backend\.venv\Scripts\activate
+
+python .\scripts\live_serial_bridge.py `
+  --port COM5 `
+  --baud 115200 `
+  --actuator-id YOUR_ACTUATOR_ID `
+  --session-name "Live actuator load test 001" `
+  --duration-s 60 `
+  --batch-size 100 `
+  --diagnose-every 1000
 ```
 
 ### Frontend Setup
