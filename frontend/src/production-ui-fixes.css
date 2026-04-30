@@ -1,0 +1,237 @@
+/* Production UI refinements: desktop copy, layout balance, and chart readability. */
+
+.nav-copy small {
+  white-space: normal;
+  overflow: hidden;
+  display: -webkit-box;
+  -webkit-line-clamp: 1;
+  -webkit-box-orient: vertical;
+}
+
+.settings-grid--production {
+  grid-template-columns: repeat(3, minmax(260px, 1fr));
+}
+
+.settings-card {
+  min-height: 260px;
+}
+
+.settings-card p {
+  color: var(--muted-strong);
+  line-height: 1.65;
+}
+
+.settings-card code {
+  display: inline-block;
+  max-width: 100%;
+  margin: 0.55rem 0;
+  word-break: break-word;
+}
+
+.workflow-panel {
+  margin-top: 1rem;
+}
+
+.workflow-steps {
+  display: grid;
+  grid-template-columns: repeat(5, minmax(0, 1fr));
+  gap: 0.75rem;
+  margin: 0;
+  padding: 0;
+  list-style: none;
+  counter-reset: workflow-step;
+}
+
+.workflow-steps li {
+  position: relative;
+  min-width: 0;
+  padding: 1rem;
+  border: 1px solid var(--border);
+  border-radius: 18px;
+  background: rgba(255, 255, 255, 0.04);
+  counter-increment: workflow-step;
+}
+
+.workflow-steps li::before {
+  content: counter(workflow-step, decimal-leading-zero);
+  display: inline-grid;
+  place-items: center;
+  width: 34px;
+  height: 34px;
+  margin-bottom: 0.75rem;
+  border-radius: 12px;
+  color: var(--accent-3);
+  background: rgba(120, 166, 255, 0.13);
+  font-size: 0.72rem;
+  font-weight: 950;
+}
+
+.workflow-steps strong,
+.connection-summary-item strong,
+.report-history-list .entity-row strong {
+  overflow-wrap: anywhere;
+}
+
+.workflow-steps strong {
+  display: block;
+  margin-bottom: 0.35rem;
+}
+
+.workflow-steps span {
+  display: block;
+  color: var(--muted);
+  line-height: 1.55;
+  font-size: 0.9rem;
+}
+
+.diagnostics-workspace-grid,
+.reports-workspace-grid,
+.live-monitor-grid {
+  display: grid;
+  gap: 1rem;
+  align-items: start;
+}
+
+.diagnostics-workspace-grid {
+  grid-template-columns: minmax(680px, 1.28fr) minmax(360px, 0.72fr);
+}
+
+.reports-workspace-grid {
+  grid-template-columns: minmax(360px, 0.45fr) minmax(720px, 1.55fr);
+}
+
+.live-monitor-grid {
+  grid-template-columns: minmax(360px, 0.48fr) minmax(720px, 1.52fr);
+}
+
+.telemetry-evidence-panel,
+.reports-preview-panel,
+.live-chart-panel {
+  min-width: 0;
+  overflow: hidden;
+}
+
+.chart-grid {
+  align-items: stretch;
+}
+
+.diagnostics-workspace-grid .chart-grid--compact,
+.reports-workspace-grid .chart-grid--compact,
+.live-monitor-grid .chart-grid--compact {
+  grid-template-columns: repeat(2, minmax(320px, 1fr));
+}
+
+.chart-panel {
+  min-width: 0;
+  min-height: 292px;
+  overflow: hidden;
+}
+
+.chart-grid--compact .chart-panel {
+  min-height: 270px;
+}
+
+.chart-panel-header {
+  flex-direction: column;
+  align-items: flex-start;
+  gap: 0.25rem;
+}
+
+.chart-panel-header h3,
+.chart-panel-header span {
+  max-width: 100%;
+  line-height: 1.3;
+  overflow-wrap: break-word;
+}
+
+.chart-panel-header span {
+  font-size: 0.9rem;
+}
+
+.recharts-wrapper,
+.recharts-surface {
+  max-width: 100%;
+}
+
+.report-hero-card {
+  align-items: flex-start;
+}
+
+.report-hero-card h2,
+.panel-title-row h2,
+.panel h2 {
+  overflow-wrap: anywhere;
+}
+
+.report-meta-grid .meta-card strong {
+  overflow-wrap: anywhere;
+}
+
+.report-history-list .entity-row {
+  text-align: left;
+}
+
+.live-control-panel .panel-title-row,
+.live-chart-panel .panel-title-row {
+  margin-bottom: 1rem;
+}
+
+.connection-summary-grid {
+  display: grid;
+  gap: 0.7rem;
+}
+
+.connection-summary-item {
+  min-width: 0;
+  padding: 0.85rem;
+  border: 1px solid var(--border);
+  border-radius: 16px;
+  background: rgba(255, 255, 255, 0.04);
+}
+
+.connection-summary-item span {
+  display: block;
+  margin-bottom: 0.35rem;
+  color: var(--muted);
+  font-size: 0.78rem;
+  font-weight: 850;
+  text-transform: uppercase;
+  letter-spacing: 0.06em;
+}
+
+.connection-summary-item strong {
+  display: block;
+  line-height: 1.35;
+}
+
+.live-action-grid {
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+}
+
+.compact-error {
+  padding: 0.85rem;
+  font-size: 0.9rem;
+}
+
+@media (max-width: 1400px) {
+  .workflow-steps {
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+  }
+
+  .diagnostics-workspace-grid,
+  .reports-workspace-grid,
+  .live-monitor-grid {
+    grid-template-columns: 1fr;
+  }
+}
+
+@media (max-width: 920px) {
+  .settings-grid--production,
+  .workflow-steps,
+  .diagnostics-workspace-grid .chart-grid--compact,
+  .reports-workspace-grid .chart-grid--compact,
+  .live-monitor-grid .chart-grid--compact,
+  .live-action-grid {
+    grid-template-columns: 1fr;
+  }
+}

@@ -1,0 +1,30 @@
+{
+  "name": "rasentinel-desktop",
+  "private": true,
+  "version": "0.1.0",
+  "description": "Desktop actuator diagnostics platform for robotics reliability, live telemetry capture, drift detection, and fault analysis.",
+  "main": "src/main.cjs",
+  "type": "commonjs",
+  "license": "MIT",
+  "productName": "RASentinel",
+  "author": { "name": "Mahesh Chandra Teja Garnepudi, Kairais Tech Solutions Pvt. Ltd.", "url": "https://www.kairais.com" },
+  "homepage": "https://www.kairais.com",
+  "scripts": {
+    "dev": "concurrently -k -n VITE,ELECTRON -c blue,green \"pnpm --dir ../frontend dev\" \"wait-on http://127.0.0.1:5173 && cross-env RASENTINEL_DESKTOP_DEV=1 electron .\"",
+    "start": "pnpm --dir ../frontend build && electron .",
+    "build:frontend": "pnpm --dir ../frontend build",
+    "dist": "electron-builder --config electron-builder.yml --win --x64",
+    "dist:portable": "electron-builder --config electron-builder.yml --win portable --x64",
+    "dist:nsis": "electron-builder --config electron-builder.yml --win nsis --x64",
+    "dist:msi": "electron-builder --config electron-builder.yml --win msi --x64",
+    "package:win": "pnpm dist",
+    "package:dir": "electron-builder --config electron-builder.yml --dir"
+  },
+  "devDependencies": {
+    "concurrently": "^9.1.2",
+    "cross-env": "^7.0.3",
+    "electron": "latest",
+    "electron-builder": "^25.1.8",
+    "wait-on": "^8.0.1"
+  }
+}

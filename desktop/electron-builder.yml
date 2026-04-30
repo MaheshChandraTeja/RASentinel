@@ -1,0 +1,61 @@
+appId: com.kairais.rasentinel
+productName: RASentinel
+executableName: RASentinel
+copyright: Copyright © 2026 Mahesh Chandra Teja Garnepudi and Kairais Tech Solutions Pvt. Ltd.
+
+
+asar: true
+
+files:
+  - src/**
+  - assets/**
+  - package.json
+
+extraResources:
+  - from: ../frontend/dist
+    to: frontend/dist
+  - from: resources/backend
+    to: backend
+  - from: assets
+    to: assets
+
+npmRebuild: false
+
+directories:
+  output: ../release
+  buildResources: assets
+
+win:
+  icon: assets/rasentinel.ico
+  target:
+    - target: nsis
+      arch:
+        - x64
+    - target: msi
+      arch:
+        - x64
+    - target: portable
+      arch:
+        - x64
+
+nsis:
+  oneClick: false
+  perMachine: false
+  allowElevation: true
+  allowToChangeInstallationDirectory: true
+  createDesktopShortcut: true
+  createStartMenuShortcut: true
+  shortcutName: RASentinel
+  artifactName: RASentinel-${version}-Setup.${ext}
+  deleteAppDataOnUninstall: false
+
+msi:
+  artifactName: RASentinel-${version}-Setup.${ext}
+  createDesktopShortcut: true
+  createStartMenuShortcut: true
+  menuCategory: Kairais Tech
+
+portable:
+  artifactName: RASentinel-${version}-Portable.${ext}
+
+publish: null

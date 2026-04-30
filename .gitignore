@@ -1,0 +1,479 @@
+# ============================================================
+# RASentinel .gitignore
+# Robotics actuator diagnostics desktop app
+# Backend: FastAPI / SQLite / Python
+# Frontend: React / Vite / TypeScript
+# Desktop: Electron / electron-builder
+# Packaging: PyInstaller sidecar backend
+# ============================================================
+
+
+# ============================================================
+# 1. OS / editor / workspace noise
+# ============================================================
+
+.DS_Store
+.AppleDouble
+.LSOverride
+Thumbs.db
+Thumbs.db:encryptable
+ehthumbs.db
+ehthumbs_vista.db
+Desktop.ini
+$RECYCLE.BIN/
+.Spotlight-V100/
+.Trashes/
+.fseventsd/
+
+*.swp
+*.swo
+*.tmp
+*.temp
+*.bak
+*.orig
+*.rej
+
+.vscode/*
+!.vscode/extensions.json
+!.vscode/settings.example.json
+!.vscode/tasks.example.json
+!.vscode/launch.example.json
+
+.idea/
+*.iml
+*.ipr
+*.iws
+
+*.code-workspace
+
+
+# ============================================================
+# 2. Environment files / local configuration
+# Keep .env.example files committed, ignore real env files.
+# ============================================================
+
+.env
+.env.*
+!.env.example
+!.env.sample
+!.env.template
+
+backend/.env
+backend/.env.*
+!backend/.env.example
+
+frontend/.env
+frontend/.env.*
+!frontend/.env.example
+
+desktop/.env
+desktop/.env.*
+!desktop/.env.example
+
+
+# ============================================================
+# 3. Secrets, certificates, signing keys, keystores
+# Never commit these. Ever. The raccoon with Git access says no.
+# ============================================================
+
+*.pem
+*.key
+*.crt
+*.cer
+*.csr
+*.pfx
+*.p12
+*.pvk
+*.spc
+*.der
+
+*.keystore
+*.jks
+*.store
+*.mobileprovision
+*.provisionprofile
+
+id_rsa
+id_rsa.pub
+id_ed25519
+id_ed25519.pub
+known_hosts
+
+secrets/
+secret/
+private/
+private_keys/
+certs/
+certificates/
+signing/
+keys/
+secure-keys/
+SecureKeys/
+
+
+# ============================================================
+# 4. Runtime data / local databases / user workspace
+# RASentinel runtime data should live in AppData, not the repo.
+# ============================================================
+
+data/
+runtime/
+storage/
+workspace/
+local-data/
+appdata/
+user-data/
+
+*.db
+*.db-*
+*.sqlite
+*.sqlite3
+*.sqlite-*
+*.sqlite3-*
+*.wal
+*.shm
+
+rasentinel.db
+rasentinel.db-*
+diagnostics.db
+telemetry.db
+
+
+# ============================================================
+# 5. Logs, traces, crash dumps, diagnostic output
+# ============================================================
+
+logs/
+log/
+*.log
+*.log.*
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+pnpm-debug.log*
+lerna-debug.log*
+
+crash-dumps/
+dumps/
+*.dmp
+*.mdmp
+*.trace
+*.prof
+*.heapsnapshot
+
+backend/logs/
+desktop/logs/
+frontend/logs/
+
+
+# ============================================================
+# 6. Python cache, virtual environments, test artifacts
+# ============================================================
+
+__pycache__/
+*.py[cod]
+*$py.class
+*.pyo
+*.pyd
+
+.Python
+.python-version
+
+backend/.venv/
+backend/venv/
+backend/env/
+backend/ENV/
+.venv/
+venv/
+env/
+ENV/
+
+pip-wheel-metadata/
+pip-log.txt
+pip-delete-this-directory.txt
+
+.pytest_cache/
+.coverage
+.coverage.*
+coverage.xml
+htmlcov/
+.tox/
+.nox/
+.hypothesis/
+.mypy_cache/
+.pyre/
+.pytype/
+.ruff_cache/
+
+*.egg
+*.egg-info/
+.eggs/
+dist-info/
+wheels/
+site/
+
+
+# ============================================================
+# 7. Python packaging / PyInstaller outputs
+# ============================================================
+
+build/
+dist/
+*.spec
+
+backend/build/
+backend/dist/
+backend/*.spec
+
+# PyInstaller output used by RASentinel packaging
+build/pyinstaller/
+desktop/resources/backend/
+desktop/resources/backend-build/
+
+# Do not commit generated frozen backend binaries
+rasentinel-backend.exe
+rasentinel-backend/
+backend.exe
+
+
+# ============================================================
+# 8. Node / frontend dependencies and generated output
+# ============================================================
+
+node_modules/
+.pnpm-store/
+.npm/
+.yarn/
+.yarn-cache/
+.yarn-integrity
+
+frontend/node_modules/
+desktop/node_modules/
+
+# Vite / frontend build
+frontend/dist/
+frontend/build/
+frontend/.vite/
+frontend/.turbo/
+frontend/.cache/
+
+# Test coverage
+frontend/coverage/
+coverage/
+
+# Optional: commit pnpm-lock.yaml for reproducible builds.
+# If you intentionally do not want lockfiles, uncomment below.
+# pnpm-lock.yaml
+
+package-lock.json
+yarn.lock
+
+
+# ============================================================
+# 9. Electron / desktop build output
+# ============================================================
+
+release/
+releases/
+desktop/dist/
+desktop/out/
+desktop/build/
+desktop/.cache/
+desktop/.vite/
+
+*.blockmap
+latest.yml
+builder-debug.yml
+builder-effective-config.yaml
+
+# Packaged installers / executables
+*.exe
+*.msi
+*.msix
+*.appx
+*.appxbundle
+*.dmg
+*.pkg
+*.deb
+*.rpm
+*.AppImage
+*.snap
+
+# Keep source icons if explicitly tracked under assets.
+!desktop/assets/*.ico
+!desktop/assets/*.png
+!assets/branding/*.png
+
+
+# ============================================================
+# 10. Generated frontend assets
+# Source logo belongs in assets/branding.
+# Generated public icons can be recreated.
+# ============================================================
+
+frontend/public/favicon.ico
+frontend/public/rasentinel.png
+frontend/public/brand/*.png
+frontend/public/brand/*.ico
+
+# Keep the source branding image if present.
+!assets/branding/source.png
+!assets/branding/rasentinel-source.png
+
+
+# ============================================================
+# 11. Reports, exports, screenshots generated at runtime
+# Keep curated docs screenshots only.
+# ============================================================
+
+reports/
+exports/
+generated/
+audit-reports/
+diagnostic-reports/
+
+*.pdf
+*.html
+*.csv
+*.jsonl
+
+# Avoid ignoring all JSON because package.json/tsconfig need tracking.
+# Ignore generated sample/result folders instead.
+data/generated/
+data/samples/generated/
+backend/generated/
+frontend/generated/
+
+# Keep documentation screenshots if you intentionally add them.
+!docs/screenshots/
+!docs/screenshots/*.png
+!docs/screenshots/*.jpg
+!docs/screenshots/*.jpeg
+!docs/screenshots/*.webp
+!docs/screenshots/*.gif
+
+# Keep docs markdown.
+!docs/**/*.md
+
+
+# ============================================================
+# 12. Sample datasets and telemetry dumps
+# Keep small curated examples only if placed under docs or samples.
+# ============================================================
+
+telemetry-dumps/
+captures/
+recordings/
+live-captures/
+hardware-captures/
+session-exports/
+
+*.parquet
+*.feather
+*.h5
+*.hdf5
+*.npy
+*.npz
+*.pkl
+*.pickle
+*.joblib
+
+# Large model artifacts
+models/
+checkpoints/
+*.onnx
+*.pt
+*.pth
+*.ckpt
+*.safetensors
+
+
+# ============================================================
+# 13. Local scripts output / temporary folders
+# ============================================================
+
+tmp/
+temp/
+.cache/
+.cache-loader/
+.local/
+scratch/
+sandbox/
+
+scripts/output/
+scripts/tmp/
+scripts/.cache/
+
+
+# ============================================================
+# 14. Windows installer signing / timestamp / packaging temp
+# ============================================================
+
+signtool.log
+signing.log
+*.timestamp
+
+# Electron-builder signing/temp internals
+desktop/.electron-builder/
+desktop/.electron-gyp/
+electron-builder-cache/
+electron-cache/
+
+
+# ============================================================
+# 15. Rust / Tauri leftovers if experiments happen later
+# Not current core stack, but this repo has been through enough.
+# ============================================================
+
+target/
+Cargo.lock.bak
+src-tauri/target/
+src-tauri/gen/
+
+
+# ============================================================
+# 16. Java / Android leftovers from keystore experiments
+# ============================================================
+
+.gradle/
+build.gradle.kts.user
+*.apk
+*.aab
+*.apks
+
+
+# ============================================================
+# 17. C/C++ native build leftovers if actuator bridges grow teeth
+# ============================================================
+
+cmake-build-*/
+CMakeFiles/
+CMakeCache.txt
+cmake_install.cmake
+Makefile
+*.obj
+*.o
+*.lib
+*.dll
+*.pdb
+*.ilk
+*.exp
+
+
+# ============================================================
+# 18. Keep important project files explicitly trackable
+# ============================================================
+
+!README.md
+!LICENSE
+!.gitignore
+!backend/requirements.txt
+!frontend/package.json
+!desktop/package.json
+!desktop/electron-builder.yml
+!frontend/index.html
+!frontend/tsconfig.json
+!frontend/vite.config.ts
+!docs/
+!scripts/
+!assets/
